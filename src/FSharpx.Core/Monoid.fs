@@ -113,6 +113,19 @@ module Monoid =
                 override this.Combine(a,b) = combine a b }
         create () (fun _ _ -> ())
 
+    let option<'T> (m : _ ISemigroup) =
+        { new Monoid<'T option>() with
+            override this.Zero() = None
+            override this.Combine(a,b) =
+                match (a,b) with
+                    | Some x, Some y -> Some (m.Combine(x, y))
+                    | Some x, None   -> Some x
+                    | None, Some y   -> Some y
+                    | None, None     -> None }
+
+    let first<'T> = option<'T> { new ISemigroup<'T> with override this.Combine(a,_) = a }
+    let last<'T>  = option<'T> { new ISemigroup<'T> with override this.Combine(_,b) = b }
+
     [<GeneralizableValue>]
     let endo<'T> = 
         { new Monoid<'T -> 'T>() with

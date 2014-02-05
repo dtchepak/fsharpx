@@ -122,15 +122,7 @@ module Option =
     let maybe = MaybeBuilder()
 
     /// Option wrapper monoid
-    let monoid (m: _ ISemigroup) =
-        { new Monoid<_>() with
-            override this.Zero() = None
-            override this.Combine(a, b) = 
-                match a,b with
-                | Some a, Some b -> Some (m.Combine(a,b))
-                | Some a, None   -> Some a
-                | None, Some a   -> Some a
-                | None, None     -> None }
+    let monoid = Monoid.option
     
     open Operators
     

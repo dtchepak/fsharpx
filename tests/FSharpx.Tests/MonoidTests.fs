@@ -97,6 +97,14 @@ let ``unit monoid``() =
     checkMonoid "unit" Monoid.unit
 
 [<Test>]
+let ``first monoid``() =
+    checkMonoid "first" Monoid.first<int>
+
+[<Test>]
+let ``last monoid``() =
+    checkMonoid "last" Monoid.last<int>
+
+[<Test>]
 let ``endo monoid``() =
     // a -> a does not support equality
     //checkMonoid "endo" Monoid.endo
